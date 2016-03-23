@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="D:/java/webmagic-core-0.5.2.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/assertj-core-1.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/commons-io-1.3.2.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/commons-lang3-3.1.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/commons-logging-1.1.3.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/commons-pool-1.5.5.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/fastjson-1.1.37.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/guava-15.0.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/httpclient-4.3.3.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/httpcore-4.3.2.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/jedis-2.0.0.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/json-path-0.8.1.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/json-smart-1.1.1.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/jsoup-1.7.2.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/junit-4.11.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/slf4j-api-1.7.6.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/slf4j-log4j12-1.7.6.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/webmagic-core-0.5.2.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/webmagic-extension-0.5.2.jar"/>
+	<classpathentry kind="lib" path="D:/java/webmagic/xsoup-0.2.4.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
