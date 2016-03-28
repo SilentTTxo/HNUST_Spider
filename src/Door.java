@@ -1,6 +1,13 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.downloader.Downloader;
+import us.codecraft.webmagic.downloader.selenium.SeleniumDownloader;
 import us.codecraft.webmagic.pipeline.FilePipeline;
 import us.codecraft.webmagic.pipeline.JsonFilePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
@@ -10,16 +17,16 @@ public class Door implements PageProcessor{
 
     @Override
     public void process(Page page) {
-    	page.addTargetRequests(page.getHtml().xpath("//a[@class='j_th_tit']").links().all());
-    	page.addTargetRequests(page.getHtml().xpath("//div[@id='frs_list_pager']/a[@class='next']").links().all());
+    	//System.out.println(page.getHtml());
+    	page.addTargetRequests(page.getHtml().xpath("//div[@class='f-nick']/a[@class='f-name']").links().all());
         //page.addTargetRequests(page.getHtml().links().regex("(http://tieba\\.baidu\\.com/\\w+/\\w+)").all());
-    	page.putField("link", page.getUrl().toString());
-        page.putField("title", page.getHtml().xpath("//div[@class='core_title core_title_theme_bright']/h1/text()").toString());
-        page.putField("ID", page.getHtml().xpath("//li[@class='d_name']/a/text()"));
-        if (page.getResultItems().get("ID")==null || page.getResultItems().get("title")==null ){
+    	page.putField("QQ", page.getUrl().regex("[0-9]+"));
+    	page.putField("nick-name", page.getHtml().xpath("//div[@class='f-nick']/a[@class='f-name']/text()").all());
+        page.putField("qq-number", page.getHtml().xpath("//div[@class='f-nick']/a[@class='f-name']").links().regex("[0-9]+").all());
+        /*if (page.getResultItems().get("ID")==null || page.getResultItems().get("title")==null ){
             //skip this page
-            page.setSkip(true);
-        }
+            page.setSkip(true); 
+        }*/
     }
 
     @Override
@@ -28,9 +35,15 @@ public class Door implements PageProcessor{
     }
 
     public static void main(String[] args) {
-        Spider.create(new Door()).addUrl("http://tieba.baidu.com/f?ie=utf-8&kw=湖南科技大学吧&fr=search")
-        	.addPipeline(new TTJsonPipeline("D:\\testdata\\"))
-        	.thread(10)
+    	/*System.setProperty("webdriver.chrome.driver", "D:\\java\\chromedriver.exe");
+    	WebDriver driver = new ChromeDriver();
+    	driver.get("http://www.baidu.com/");
+    	WebElement webElement = driver.findElement(By.xpath("/html"));
+        System.out.println(webElement.getAttribute("outerHTML"));*/
+        Spider.create(new Door()).addUrl("http://user.qzone.qq.com/8359251")
+        	.addPipeline(new TTJsonPipeline("D:\\QQSpider\\"))
+        	.downloader(new SeleniumDownloader("D:\\java\\chromedriver.exe"))
+        	.thread(1)
         	.run();
     }
 }
