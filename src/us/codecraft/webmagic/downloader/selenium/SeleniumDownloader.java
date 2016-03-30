@@ -3,6 +3,7 @@ package us.codecraft.webmagic.downloader.selenium;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -35,6 +36,9 @@ public class SeleniumDownloader implements Downloader, Closeable {
 
 	private int sleepTime = 20000;
 	private int nextsleepTime = 5000;
+	private int pageTime = 1000;
+	private int pageLong = 5;
+	private boolean first = true;
 
 	private int poolSize = 1;
 
@@ -70,6 +74,15 @@ public class SeleniumDownloader implements Downloader, Closeable {
 		this.sleepTime = sleepTime;
 		return this;
 	}
+	
+	private boolean isElementExits(WebDriver xx,By yy){
+		try{
+			xx.findElement(yy);
+			return true;
+		} catch(Exception e){
+			return false;
+		}
+	}
 
 	@Override
 	public Page download(Request request, Task task) {
@@ -89,6 +102,40 @@ public class SeleniumDownloader implements Downloader, Closeable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		Page page = new Page();
+		String content = "";
+		//
+		if(sleepTime==nextsleepTime){
+			int fanye = pageLong;
+			
+			while(fanye>=0){
+				((JavascriptExecutor) webDriver).executeScript("window.scrollTo(0, document.body.scrollHeight)");
+				try {
+					Thread.sleep(pageTime);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				fanye--;
+				if(isElementExits(webDriver,By.id("feed_page_container"))){
+					WebElement webElement = webDriver.findElement(By.xpath("/html"));
+					content += webDriver.findElement(By.xpath("//li[@id='feed_page_container']")).getAttribute("outerHTML");
+				}
+			}
+			if(isElementExits(webDriver,By.id("QM_Feeds_Iframe"))){
+				webDriver.switchTo().frame("QM_Feeds_Iframe");
+				WebElement webElement = webDriver.findElement(By.xpath("/html"));
+				String content1 = webElement.getAttribute("outerHTML");
+				Page page1 = new Page();
+				page.setRawText(content1);
+				page.setHtml(new Html(UrlUtils.fixAllRelativeHrefs(content,
+						request.getUrl())));
+				page.setUrl(new PlainText(request.getUrl()));
+				page.setRequest(request);
+				webDriverPool.returnToPool(webDriver);
+				return page;
+			}
+		}
 		WebDriver.Options manage = webDriver.manage();
 		Site site = task.getSite();
 		if (site.getCookies() != null) {
@@ -106,9 +153,6 @@ public class SeleniumDownloader implements Downloader, Closeable {
 		 * @author: bob.li.0718@gmail.com
 		 */
 
-		WebElement webElement = webDriver.findElement(By.xpath("/html"));
-		String content = webElement.getAttribute("outerHTML");
-		Page page = new Page();
 		page.setRawText(content);
 		page.setHtml(new Html(UrlUtils.fixAllRelativeHrefs(content,
 				request.getUrl())));
